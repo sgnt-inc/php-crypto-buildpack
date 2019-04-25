@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+arrows() {
+  sed -u 's/^/-----> /'
+}
+
+echo "Installing crypto-0.3.1..." | arrows
+
+if  pecl install crypto-0.3.1 > /dev/null ; then
+
+	echo "Crypto extension installed." | indent
+
+	echo "Enabling Crypto extension in php configuration..." | arrows
+
+	echo "extension=crypto.so" >> /app/.heroku/php/etc/php/conf.d/20-crypto.ini
+
+	echo "Crypto extension enabled." | indent
+
+else
+	echo "Crypto failed to install!" | indent
+
+	exit 1
+fi
